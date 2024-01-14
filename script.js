@@ -48,8 +48,8 @@ mercedes.brake();
 
 //class declaration
 class PersonCL {
-  constructor(firstName, birthYear) {
-    this.firstName = firstName;
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
     this.birthYear = birthYear;
   }
 
@@ -61,9 +61,53 @@ class PersonCL {
   greet() {
     console.log(`Hi! ${this.firstName}`);
   }
+
+  get age() {
+    return 2040 - this.birthYear;
+  }
+
+  //setting a property that already exist
+  set fullName(name) {
+    if (name.includes(' ')) this._fullName = name;
+    else alert(`${name} is not a full name!`);
+  }
+
+  get fullName() {
+    return this._fullName;
+  }
 }
 
-const jessica = new PersonCL('Jessica', 1997);
+const jessica = new PersonCL('Jessica Davis', 1997);
 
 console.log(jessica);
 jessica.greet();
+console.log(jessica.age);
+
+//Facts about classes
+// 1. Classes are NOT hoisted
+// 2. Classes are first-class citizens
+// 3. body of a class is always executed in strict mode
+
+// Setters and getters
+const account = {
+  owner: 'Dan',
+  movements: [200, 300, 120, 300],
+
+  //getter
+  get latest() {
+    // return this.movements.slice(-1).pop();
+    const [...last] = this.movements.slice(-1);
+    return last;
+  },
+
+  //setter
+  set latest(mov) {
+    this.movements.push(mov);
+  },
+};
+
+console.log(account.latest);
+
+//setter
+account.latest = 50;
+console.log(account.movements);
