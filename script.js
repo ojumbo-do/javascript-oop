@@ -11,4 +11,8 @@ const dan = new Person('Dancun', 2000);
 console.log(dan);
 
 //protoptype
-Person.prototype;
+Person.prototype.calcAge = function () {
+  console.log(2040 - this.birthYear);
+};
+
+dan.calcAge();
