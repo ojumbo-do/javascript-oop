@@ -75,7 +75,15 @@ class PersonCL {
   get fullName() {
     return this._fullName;
   }
+
+  //static in a class
+  static hey() {
+    console.log('Hello There');
+    console.log(this);
+  }
 }
+
+PersonCL.hey();
 
 const jessica = new PersonCL('Jessica Davis', 1997);
 
@@ -111,3 +119,72 @@ console.log(account.latest);
 //setter
 account.latest = 50;
 console.log(account.movements);
+
+/////////////////////
+//Static methods
+
+// static in a constructor
+Person.hey = function () {
+  console.log('Hello There');
+  console.log(this);
+};
+
+Person.hey();
+
+/////////////////////
+//Object.Create
+const PersonProto = {
+  calcAge() {
+    console.log(2040 - this.birthYear);
+  },
+
+  //programmatic way of creating object from proto in object.create
+  init(firstName, birthYear) {
+    (this.firstName = firstName), (this.birthYear = birthYear);
+  },
+};
+
+//create the object
+const steven = Object.create(PersonProto);
+console.log(steven);
+
+//Manual way of creating object from proto in object.create
+steven.name = 'steven';
+steven.birthYear = 2040;
+steven.calcAge();
+
+const sarah = Object.create(PersonProto);
+sarah.init('Sarah', 1930);
+sarah.calcAge();
+
+/////////////////////
+//Challenge Two
+class CarCL {
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
+
+  accelerate() {
+    console.log(`${this.make}: ${(this.speed += 10)} km/h`);
+  }
+
+  brake() {
+    console.log(`${this.make}: ${(this.speed -= 5)} km/h`);
+  }
+
+  get speedUS() {
+    return this.speed / 1.6;
+  }
+  set speedUS(speed) {
+    this.speed = speed * 1.6;
+  }
+}
+
+const ford = new CarCL('Ford', 120);
+
+ford.accelerate();
+ford.brake();
+
+ford.speedUS = 60;
+console.log(ford);
