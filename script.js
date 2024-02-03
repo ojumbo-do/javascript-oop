@@ -255,3 +255,94 @@ const tesla = new EV('Tesla', 120, 23);
 tesla.chargeBattery(80);
 tesla.brake();
 tesla.accelerate();
+
+//Inheritance in ES6 CLasses
+class PersonCL {
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  }
+
+  //Methods will be added to .prototype property
+  calcAge() {
+    console.log(2040 - this.birthYear);
+  }
+
+  greet() {
+    console.log(`Hi! ${this.firstName}`);
+  }
+
+  get age() {
+    return 2040 - this.birthYear;
+  }
+
+  //setting a property that already exist
+  set fullName(name) {
+    if (name.includes(' ')) this._fullName = name;
+    else alert(`${name} is not a full name!`);
+  }
+
+  get fullName() {
+    return this._fullName;
+  }
+
+  //static in a class
+  static hey() {
+    console.log('Hello There');
+  }
+}
+
+class StudentCL extends PersonCL {
+  constructor(fullName, birthYear, course /*not mandatory */) {
+    //don't remember this
+    super(fullName, birthYear);
+    this.course = course; //not mandatory
+  }
+
+  introduce() {
+    console.log(
+      `My name is ${this.fullName}, I am a ${
+        this.course
+      } student at the University and I am ${2050 - this.birthYear}years of age`
+    );
+  }
+}
+
+const martha = new StudentCL('Martha Kerubo', 2012, 'Computer Science');
+
+martha.introduce();
+martha.calcAge();
+
+// Inheritance using Object.Create
+const PersonProto = {
+  calcAge() {
+    console.log(2040 - this.birthYear);
+  },
+
+  //programmatic way of creating object from proto in object.create
+  init(firstName, birthYear) {
+    (this.firstName = firstName), (this.birthYear = birthYear);
+  },
+};
+
+const steven = Object.create(PersonProto);
+
+const StudentProto = Object.create(PersonProto);
+StudentProto.init = function (firstName, birthYear, course) {
+  PersonProto.init.call(this, firstName, birthYear);
+  this.course = course;
+};
+
+StudentProto.introduce = function () {
+  console.log(
+    `My name is ${this.firstName}, I am a ${
+      this.course
+    } student at the University and I am ${2050 - this.birthYear}years of age`
+  );
+};
+
+const jay = Object.create(StudentProto);
+jay.init('Jay', 2010, 'Computer Science');
+
+jay.introduce();
+jay.calcAge();
