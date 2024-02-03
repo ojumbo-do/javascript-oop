@@ -343,6 +343,65 @@ StudentProto.introduce = function () {
 
 const jay = Object.create(StudentProto);
 jay.init('Jay', 2010, 'Computer Science');
-
 jay.introduce();
 jay.calcAge();
+
+//More on classes data encapsulation
+//Public fields
+//private fields
+
+class Account {
+  //How to define public fields(Instances)
+  locale = navigator.language;
+
+  //private fields
+  #movements = [];
+  #pin;
+
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    this.#pin = pin;
+    // this._movements = []; //protected property
+    // this.locale = navigator.language;
+
+    console.log(`Thank you for opening account with us, ${owner}`);
+  }
+
+  //
+  //public methods
+  getMovements() {
+    return this.#movements;
+  }
+
+  deposit(value) {
+    this.#movements.push(value);
+  }
+
+  withdraw(value) {
+    this.deposit(-value);
+  }
+
+  requestLoan(value) {
+    if (this.#approveLoan(value)) {
+      this.deposit(value);
+      console.log('Loan approved');
+    }
+  }
+
+  //private methods
+  #approveLoan(value) {
+    return true;
+  }
+}
+
+const acc1 = new Account('Dan', 'KES', 1234);
+acc1.deposit(500);
+acc1.withdraw(200);
+acc1.requestLoan(199);
+// acc1.#approveLoan(199);
+console.log(...acc1.getMovements());
+
+// console.log(acc1.#movements);
+
+//Data privacy and encapsulation- private class fields and methods
