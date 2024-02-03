@@ -203,7 +203,10 @@ const Student = function (firstName, birthYear, course) {
   //calling the parent class
   Person.call(this, firstName, birthYear);
   this.course = course;
-};
+}; //child class
+
+//creating object manually using object.create()
+Student.prototype = Object.create(Person.prototype);
 
 Student.prototype.introduce = function () {
   console.log(
@@ -215,3 +218,40 @@ Student.prototype.introduce = function () {
 
 const brenda = new Student('Brenda', 2019, 'hospitality');
 brenda.introduce();
+brenda.calcAge();
+
+// challenge 03
+const Car = function (make, speed) {
+  (this.make = make), (this.speed = speed);
+};
+
+Car.prototype.brake = function () {
+  this.speed -= 5;
+  console.log(`${this.make} is going at ${this.speed}km/h`);
+};
+
+const EV = function (make, speed, charge) {
+  Car.call(this, make, speed), (this.charge = charge);
+};
+
+EV.prototype = Object.create(Car.prototype);
+
+EV.prototype.chargeBattery = function (chargeTo) {
+  this.charge = chargeTo;
+  console.log(`${this.make} is ${this.charge}% charged`);
+};
+
+EV.prototype.accelerate = function () {
+  this.speed += 20;
+  this.charge--;
+
+  console.log(
+    `${this.make} going at ${this.speed} km/h, with charge of ${this.charge}%`
+  );
+};
+
+const tesla = new EV('Tesla', 120, 23);
+
+tesla.chargeBattery(80);
+tesla.brake();
+tesla.accelerate();
